@@ -11,6 +11,8 @@ class WaveStrategyUnit(object):
         
         self.id = stock.id
         
+        self.lastday = 0
+        
         self.name = stock.name
 
         self.calcMinsAndMaxs(stock)
@@ -18,6 +20,12 @@ class WaveStrategyUnit(object):
     def calcMinsAndMaxs(self, stock):
     
         totals = stock.dayvalues
+        
+        if len(totals) <= 0:
+            
+            return
+
+        self.lastday = totals[len(totals) - 1]
         
         i = 0
 
@@ -65,52 +73,3 @@ class WaveStrategyUnit(object):
         
                 continue
         
-
-
-
-# while i < len(totals) - 1:
-#
-#     i = i + 1
-#
-#     dayvalue = totals[i]
-#
-#     if tempMax is not None and dayvalue.close < tempMax.close * (1 - alpha):
-#
-#         maxs.append(tempMax)
-#
-#         tempMax = None
-#
-#         tempMin = dayvalue
-#
-#         continue
-#
-#     if tempMin is not None and dayvalue.close < tempMin.close:
-#
-#         tempMin = dayvalue
-#
-#         continue
-#
-#     if tempMin is not None and dayvalue.close > tempMin.close * (1 + alpha):
-#
-#         mins.append(tempMin)
-#
-#         tempMin = None
-#
-#         tempMax = dayvalue
-#
-#         continue
-#
-#     if tempMax is not None and dayvalue.close > tempMax.close:
-#
-#         tempMax = dayvalue
-#
-#         continue
-    
-# [print(v.date) for v in mins]
-
-# print('------------------------')
-
-# [print(a.date) for a in maxs]
-
-        
-    

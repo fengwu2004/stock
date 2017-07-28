@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 import json
 import jsonpickle
+import time
 
 def loadFromDB():
     
@@ -13,13 +14,19 @@ def loadFromDB():
     coll = db['stocks']
     
     results = coll.find({}, {'_id': 0})
+
+    strValues = []
     
     for r in results:
-        
+
         strValue = json.dumps(r)
 
-        obj = jsonpickle.decode(strValue)
+        strValues.append(strValue)
+
+    for str in strValues:
+        
+        obj = jsonpickle.decode(str)
 
         stocks.append(obj)
-        
+
     return stocks

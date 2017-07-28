@@ -2,19 +2,23 @@ import serialization
 from wave_strategy import WaveStrategyUnit
 import jsonpickle
 from pymongo import MongoClient
+from strategy_find_increase import checkInAdjustWave
+
 import json
 
 stocks = serialization.loadFromDB()
 
 results = []
 
-alpha = 0.08
+alpha = 0.12
 
 for stock in stocks:
     
     wavaUnit = WaveStrategyUnit(stock, alpha)
     
-    results.append(wavaUnit)
+    if checkInAdjustWave(wavaUnit):
+    
+        results.append(wavaUnit)
 
 def save():
     
@@ -22,10 +26,10 @@ def save():
     
     db = client["test"]
     
-    name = "alpha_%s" % alpha
+    name = "alpha_increase_%s" % alpha
     
     coll = db[name]
-    
+        
     v = json.loads(jsonpickle.encode(results))
     
     coll.insert_many(v)
